@@ -2,8 +2,18 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const PORT = process.env.PORT || 3500;
+// built-in middleware to handle urlncoded data
+//`content-type: application/x-www-form-urlencoded
 
-app.get('^/$|/index(.html)?', (req, res) => {
+app.use(express.urlencoded({ extended: false }));
+
+app.use(express.json());
+
+
+//serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('^/$|/index(.html)?', (req, res) => { //'^/$|/index(.html)?', '^' means start of the string, '$' means end of the string
     //res.sendFile('./views/index.html', { root: __dirname });
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
